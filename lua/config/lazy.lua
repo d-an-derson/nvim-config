@@ -25,9 +25,11 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.relativenumber = true
+vim.opt.termguicolors = true
 
+-- treesitter init
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'lua', 'javascript', 'html', 'css', 'c' }, -- Add your languages
+  pattern = { 'lua', 'javascript', 'html', 'css', 'c', 'go' }, -- Add your languages
   callback = function()
     vim.treesitter.start()
   end,
@@ -45,3 +47,7 @@ require("lazy").setup({
   -- automatically check for plugin updates
   checker = { enabled = true },
 })
+
+-- set colorcheme
+vim.cmd [[colorscheme moonfly]]
+
