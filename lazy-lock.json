@@ -18,5 +18,6 @@
   "plenary.nvim": { "branch": "master", "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b" },
   "tree-sitter-manager.nvim": { "branch": "main", "commit": "8c8b9c5a154e33c565baa2f4562eb50056df8f5b" },
   "universal-clipboard.nvim": { "branch": "main", "commit": "48a625ab592633a05446ef66031611593a5b55d9" },
-  "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" }
+  "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" },
+  "yanky.nvim": { "branch": "main", "commit": "b13d318dc7c816e2eee626dde61fa0a7237bc77e" }
 }

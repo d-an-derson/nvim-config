@@ -27,6 +27,15 @@ vim.opt.softtabstop = 2
 vim.opt.relativenumber = true
 vim.opt.termguicolors = true
 
+-- Yanky keybindings
+vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
+vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
+vim.keymap.set({"n","x"}, "gp", "<Plug>(YankyGPutAfter)")
+vim.keymap.set({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
+
+vim.keymap.set("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
+vim.keymap.set("n", "<c-n>", "<Plug>(YankyNextEntry)")
+
 -- treesitter init
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'lua', 'javascript', 'html', 'css', 'c', 'go' }, -- Add your languages
@@ -47,6 +56,13 @@ require("lazy").setup({
   -- automatically check for plugin updates
   checker = { enabled = true },
 })
+
+require('lualine').setup({
+  options = {
+      theme = '16color',
+      ignore_focus = { 'neo-tree' }
+    }
+  })
 
 -- set colorcheme
 vim.cmd [[colorscheme moonfly]]
