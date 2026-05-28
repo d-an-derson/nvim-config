@@ -1,4 +1,8 @@
 return {
   "gbprod/yanky.nvim",
-  opts = {},
+  opts = {
+    highlight = { timer = 50 },
+  },
 }
+
+-- TODO implement yank history picker
