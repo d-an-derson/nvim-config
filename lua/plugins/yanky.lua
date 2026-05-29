@@ -5,4 +5,4 @@ return {
   },
 }
 
--- TODO implement yank history picker
+-- TODO: implement yank history picker
