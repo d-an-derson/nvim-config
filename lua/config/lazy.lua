@@ -44,6 +44,21 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+-- 1. Turn off inline virtual text
+vim.diagnostic.config({
+  virtual_text = false,
+  underline = true,
+})
+
+-- 2. Open diagnostics in a floating window automatically on cursor hold
+vim.o.updatetime = 250
+vim.api.nvim_create_autocmd("CursorHold", {
+  pattern = "*",
+  callback = function()
+    vim.diagnostic.open_float(nil, { focus = false, scope = "cursor" })
+  end
+})
+
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
