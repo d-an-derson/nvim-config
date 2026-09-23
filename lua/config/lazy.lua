@@ -24,8 +24,9 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
-vim.opt.relativenumber = true
+vim.opt.number = true
 vim.opt.termguicolors = true
+vim.opt.scrolloff = 15
 
 -- Yanky keybindings
 vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
@@ -44,13 +45,13 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
--- 1. Turn off inline virtual text
+-- Diagnostics config
+-- Turn off inline virtual text
 vim.diagnostic.config({
   virtual_text = false,
   underline = true,
 })
-
--- 2. Open diagnostics in a floating window automatically on cursor hold
+-- Open diagnostics in a floating window automatically on cursor hold
 vim.o.updatetime = 250
 vim.api.nvim_create_autocmd("CursorHold", {
   pattern = "*",
@@ -64,6 +65,14 @@ require("lazy").setup({
   spec = {
     -- import your plugins
     { import = "plugins" },
+    {
+      "notes",
+      dir = "/Volumes/BootE/Dev/projects/nvim-dev/notes",
+      config = function()
+        require("notes").setup({
+        })
+      end,
+    },
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
@@ -81,4 +90,3 @@ require('lualine').setup({
 
 -- set colorcheme
 vim.cmd [[colorscheme moonfly]]
-

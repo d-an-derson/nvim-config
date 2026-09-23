@@ -1,6 +1,8 @@
+local builtin = require('telescope.builtin')
+
 return {
   vim.keymap.set('i', 'jj', '<ESC>'),
-  vim.keymap.set('n', '<leader>e', '<Cmd>:Neotree toggle<CR>', { desc = 'Toggle Neo-tree'}),
+  vim.keymap.set('n', '<leader>e', function() Snacks.explorer({ cwd = vim.fn.expand("%:p:h") }) end, { desc = 'Toggle Snacks/Explorer (Current dir/file)'}),
   vim.keymap.set('n', '<C-f>', '<Cmd>:Neotree focus<CR>', { desc = 'Focus Neo-tree'}),
   -- Shift + l goes to the next buffer
   vim.keymap.set('n', '<S-l>', '<Cmd>bnext<CR>', { desc = 'Next buffer' }),
@@ -24,5 +26,12 @@ return {
       vim.cmd('enew')
       vim.cmd('bdelete ' .. cur_buf)
     end
-  end, { desc = "Safely close buffer and move left" })
+  end, { desc = "Safely close buffer and move left" }),
+  -- Telescope bindings
+  vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' }),
+  vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' }),
+  vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' }),
+  vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 }
+
+
