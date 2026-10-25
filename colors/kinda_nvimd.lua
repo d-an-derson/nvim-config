@@ -1,0 +1,328 @@
+-- Theme  : kinda_nvimd
+-- Neovim port of the kinda_nvimd helix theme (~/.config/helix/themes/kinda_nvimd.toml)
+-- Based on the kinda_nvim theme by Strash (https://github.com/strash/kinda_nvim.hx), MIT
+
+package.loaded["kinda_nvimd.palette"] = nil -- pick up palette edits on :colorscheme reload
+local p = require("kinda_nvimd.palette")
+
+vim.cmd("highlight clear")
+if vim.g.syntax_on then vim.cmd("syntax reset") end
+vim.o.background = "dark"
+vim.g.colors_name = "kinda_nvimd"
+
+local groups = {
+  -- Editor UI
+  Normal = { fg = p.fg, bg = p.bg },
+  NormalNC = { fg = p.fg, bg = p.bg },
+  NormalFloat = { fg = p.fg_3, bg = p.bg_2 },
+  FloatBorder = { fg = p.fg_4, bg = p.bg_2 },
+  FloatTitle = { fg = p.fg_3, bg = p.bg_2, bold = true },
+  Cursor = { fg = p.bg, bg = p.fg },
+  lCursor = { link = "Cursor" },
+  CursorIM = { fg = p.bg, bg = p.fg_secondary },
+  CursorLine = { bg = p.bg_1 },
+  CursorColumn = { bg = p.bg_1 },
+  ColorColumn = { bg = p.bg_1 },
+  LineNr = { fg = p.fg_4, bg = p.bg },
+  CursorLineNr = { fg = p.fg_1, bg = p.bg, bold = true },
+  SignColumn = { fg = p.fg_4, bg = p.bg },
+  FoldColumn = { fg = p.fg_4, bg = p.bg },
+  Folded = { fg = p.fg_3, bg = p.bg_1 },
+  WinSeparator = { fg = p.fg_4, bg = p.bg },
+  VertSplit = { link = "WinSeparator" },
+  StatusLine = { fg = p.fg, bg = p.bg },
+  StatusLineNC = { fg = p.fg_4, bg = p.bg },
+  TabLine = { fg = p.fg_4, bg = p.bg },
+  TabLineFill = { bg = p.bg },
+  TabLineSel = { fg = p.fg_primary, bg = p.bg_3, bold = true },
+  WinBar = { fg = p.fg_1, bg = p.bg },
+  WinBarNC = { fg = p.fg_4, bg = p.bg },
+  Visual = { bg = p.bg_4 },
+  VisualNOS = { bg = p.bg_3 },
+  MatchParen = { bg = p.bg_3, bold = true },
+  Search = { fg = p.fg_warn, bg = p.bg_warn },
+  CurSearch = { fg = p.bg, bg = p.fg_warn },
+  IncSearch = { link = "CurSearch" },
+  Substitute = { fg = p.bg, bg = p.fg_err },
+  NonText = { fg = p.fg_4 },
+  Whitespace = { fg = p.bg_4 },
+  SpecialKey = { fg = p.fg_4 },
+  EndOfBuffer = { fg = p.fg_4 },
+  Conceal = { fg = p.fg_4 },
+  Directory = { fg = p.fg_secondary },
+  Title = { fg = p.fg_primary, bold = true },
+  QuickFixLine = { bg = p.bg_3 },
+
+  Pmenu = { fg = p.fg_2, bg = p.bg_2 },
+  PmenuSel = { fg = p.fg, bg = p.bg_3 },
+  PmenuKind = { fg = p.fg_tertiary_variant, bg = p.bg_2 },
+  PmenuExtra = { fg = p.fg_3, bg = p.bg_2 },
+  PmenuMatch = { fg = p.fg_primary, bg = p.bg_2, bold = true },
+  PmenuMatchSel = { fg = p.fg_primary, bg = p.bg_3, bold = true },
+  PmenuSbar = { bg = p.bg_1 },
+  PmenuThumb = { bg = p.bg_4 },
+  WildMenu = { link = "PmenuSel" },
+
+  ModeMsg = { fg = p.fg_1, bold = true },
+  MoreMsg = { fg = p.fg_primary },
+  Question = { fg = p.fg_secondary },
+  ErrorMsg = { fg = p.fg_err },
+  WarningMsg = { fg = p.fg_warn },
+  MsgArea = { fg = p.fg },
+
+  SpellBad = { undercurl = true, sp = p.fg_err },
+  SpellCap = { undercurl = true, sp = p.fg_warn },
+  SpellLocal = { undercurl = true, sp = p.fg_info },
+  SpellRare = { undercurl = true, sp = p.fg_hint },
+
+  -- Diff
+  DiffAdd = { fg = p.fg_primary, bg = p.bg_hint },
+  DiffChange = { fg = p.fg_2, bg = p.bg_3 },
+  DiffDelete = { fg = p.fg_err, bg = p.bg_err },
+  DiffText = { fg = p.fg, bg = p.bg_4 },
+  Added = { fg = p.fg_primary },
+  Changed = { fg = p.fg_2 },
+  Removed = { fg = p.fg_err },
+  diffAdded = { link = "Added" },
+  diffChanged = { link = "Changed" },
+  diffRemoved = { link = "Removed" },
+
+  -- Diagnostics
+  DiagnosticError = { fg = p.fg_err },
+  DiagnosticWarn = { fg = p.fg_warn },
+  DiagnosticInfo = { fg = p.fg_info },
+  DiagnosticHint = { fg = p.fg_hint },
+  DiagnosticOk = { fg = p.fg_primary },
+  DiagnosticVirtualTextError = { fg = p.fg_err, bg = p.bg_err },
+  DiagnosticVirtualTextWarn = { fg = p.fg_warn, bg = p.bg_warn },
+  DiagnosticVirtualTextInfo = { fg = p.fg_info, bg = p.bg_info },
+  DiagnosticVirtualTextHint = { fg = p.fg_hint, bg = p.bg_hint },
+  DiagnosticUnderlineError = { undercurl = true, sp = p.fg_err },
+  DiagnosticUnderlineWarn = { undercurl = true, sp = p.fg_warn },
+  DiagnosticUnderlineInfo = { undercurl = true, sp = p.fg_info },
+  DiagnosticUnderlineHint = { undercurl = true, sp = p.fg_hint },
+  DiagnosticUnnecessary = { fg = p.fg_info, bg = p.bg_info },
+  DiagnosticDeprecated = { fg = p.fg_err, strikethrough = true },
+  LspInlayHint = { fg = p.fg_4, italic = true },
+  LspReferenceText = { bg = p.bg_3 },
+  LspReferenceRead = { bg = p.bg_3 },
+  LspReferenceWrite = { bg = p.bg_3 },
+  LspSignatureActiveParameter = { fg = p.fg_primary, bold = true },
+
+  -- Legacy syntax groups
+  Comment = { fg = p.fg_secondary_variant, italic = true },
+  Constant = { fg = p.fg, bold = true },
+  String = { fg = p.fg_2 },
+  Character = { fg = p.fg_tertiary_variant, bold = true },
+  Number = { fg = p.fg_err },
+  Float = { link = "Number" },
+  Boolean = { fg = p.fg_primary_variant, bold = true },
+  Identifier = { fg = p.fg_hint },
+  Function = { fg = p.fg_secondary },
+  Statement = { fg = p.fg_tertiary },
+  Conditional = { link = "Statement" },
+  Repeat = { link = "Statement" },
+  Label = { fg = p.fg_1 },
+  Operator = { fg = p.fg_2 },
+  Keyword = { fg = p.fg_tertiary },
+  Exception = { link = "Statement" },
+  PreProc = { fg = p.fg_secondary, bold = true },
+  Include = { fg = p.fg_tertiary },
+  Define = { link = "PreProc" },
+  Macro = { link = "PreProc" },
+  PreCondit = { link = "PreProc" },
+  Type = { fg = p.fg_primary },
+  StorageClass = { fg = p.fg_tertiary, bold = true },
+  Structure = { fg = p.fg_primary },
+  Typedef = { link = "Type" },
+  Special = { fg = p.fg_tertiary_variant },
+  SpecialChar = { link = "Special" },
+  Tag = { fg = p.fg_hint },
+  Delimiter = { fg = p.fg_1 },
+  SpecialComment = { fg = p.fg_secondary_variant, bold = true },
+  Debug = { fg = p.fg_hint },
+  Underlined = { underline = true },
+  Ignore = { fg = p.fg_4 },
+  Error = { fg = p.fg_err },
+  Todo = { fg = p.fg_warn, bold = true },
+
+  -- Treesitter captures (mapped from the helix scopes)
+  ["@variable"] = { fg = p.fg_hint },
+  ["@variable.builtin"] = { fg = p.fg_tertiary },
+  ["@variable.parameter"] = { fg = p.fg_hint },
+  ["@variable.parameter.builtin"] = { fg = p.fg_tertiary },
+  ["@variable.member"] = { fg = p.fg_secondary },
+  ["@property"] = { fg = p.fg_secondary },
+
+  ["@constant"] = { link = "Constant" },
+  ["@constant.builtin"] = { fg = p.fg_primary_variant, bold = true },
+  ["@constant.macro"] = { link = "Constant" },
+
+  ["@module"] = { fg = p.fg_primary },
+  ["@module.builtin"] = { fg = p.fg_primary_variant },
+  ["@label"] = { link = "Label" },
+
+  ["@string"] = { link = "String" },
+  ["@string.documentation"] = { link = "String" },
+  ["@string.regexp"] = { fg = p.fg_tertiary_variant },
+  ["@string.escape"] = { fg = p.fg_tertiary_variant, bold = true },
+  ["@string.special"] = { fg = p.fg_tertiary_variant },
+  ["@string.special.symbol"] = { fg = p.fg_primary_variant },
+  ["@string.special.url"] = { fg = p.fg_2, underline = true },
+  ["@string.special.path"] = { fg = p.fg_2 },
+  ["@character"] = { link = "Character" },
+  ["@character.special"] = { link = "Special" },
+  ["@boolean"] = { link = "Boolean" },
+  ["@number"] = { link = "Number" },
+  ["@number.float"] = { link = "Number" },
+
+  ["@type"] = { fg = p.fg_primary },
+  ["@type.builtin"] = { fg = p.fg_primary_variant },
+  ["@type.definition"] = { fg = p.fg_primary },
+  ["@attribute"] = { fg = p.fg_warn },
+  ["@attribute.builtin"] = { fg = p.fg_warn },
+
+  ["@function"] = { link = "Function" },
+  ["@function.builtin"] = { fg = p.fg_secondary },
+  ["@function.call"] = { link = "Function" },
+  ["@function.macro"] = { fg = p.fg_secondary, bold = true },
+  ["@function.method"] = { link = "Function" },
+  ["@function.method.call"] = { link = "Function" },
+  ["@constructor"] = { fg = p.fg_primary, bold = true },
+  ["@operator"] = { link = "Operator" },
+
+  ["@keyword"] = { fg = p.fg_tertiary },
+  ["@keyword.function"] = { fg = p.fg_tertiary, bold = true },
+  ["@keyword.type"] = { fg = p.fg_tertiary, bold = true },
+  ["@keyword.modifier"] = { fg = p.fg_tertiary, bold = true },
+  ["@keyword.import"] = { fg = p.fg_tertiary },
+  ["@keyword.return"] = { fg = p.fg_tertiary },
+  ["@keyword.exception"] = { fg = p.fg_tertiary },
+  ["@keyword.directive"] = { fg = p.fg_secondary, bold = true },
+  ["@keyword.directive.define"] = { fg = p.fg_secondary, bold = true },
+
+  ["@punctuation.delimiter"] = { fg = p.fg_1 },
+  ["@punctuation.bracket"] = { fg = p.fg_3 },
+  ["@punctuation.special"] = { fg = p.fg_tertiary_variant },
+
+  ["@comment"] = { link = "Comment" },
+  ["@comment.documentation"] = { link = "Comment" },
+  ["@comment.error"] = { fg = p.fg_err, bg = p.bg_err, bold = true },
+  ["@comment.warning"] = { fg = p.fg_warn, bg = p.bg_warn, bold = true },
+  ["@comment.todo"] = { fg = p.fg_info, bg = p.bg_info, bold = true },
+  ["@comment.note"] = { fg = p.fg_hint, bg = p.bg_hint, bold = true },
+
+  ["@markup.heading"] = { fg = p.fg_primary, bold = true },
+  ["@markup.strong"] = { bold = true },
+  ["@markup.italic"] = { italic = true },
+  ["@markup.strikethrough"] = { strikethrough = true },
+  ["@markup.underline"] = { underline = true },
+  ["@markup.quote"] = { fg = p.fg_2, italic = true },
+  ["@markup.math"] = { fg = p.fg_tertiary_variant },
+  ["@markup.link"] = { fg = p.fg_secondary },
+  ["@markup.link.label"] = { fg = p.fg_secondary },
+  ["@markup.link.url"] = { fg = p.fg_2, underline = true },
+  ["@markup.raw"] = { fg = p.fg_primary },
+  ["@markup.list"] = { fg = p.fg_tertiary_variant },
+  ["@markup.list.checked"] = { fg = p.fg_primary },
+  ["@markup.list.unchecked"] = { fg = p.fg_3 },
+
+  ["@diff.plus"] = { link = "Added" },
+  ["@diff.minus"] = { link = "Removed" },
+  ["@diff.delta"] = { link = "Changed" },
+
+  ["@tag"] = { fg = p.fg_hint },
+  ["@tag.builtin"] = { fg = p.fg_hint },
+  ["@tag.attribute"] = { fg = p.fg_warn },
+  ["@tag.delimiter"] = { fg = p.fg_3 },
+
+  -- LSP semantic tokens that don't map cleanly through the default links
+  ["@lsp.type.namespace"] = { link = "@module" },
+  ["@lsp.type.parameter"] = { link = "@variable.parameter" },
+  ["@lsp.type.property"] = { link = "@property" },
+  ["@lsp.type.enumMember"] = { fg = p.fg_primary_variant },
+  ["@lsp.mod.deprecated"] = { strikethrough = true },
+  ["@lsp.typemod.variable.defaultLibrary"] = { link = "@variable.builtin" },
+
+  -- snacks.nvim
+  SnacksIndent = { fg = p.bg_4 },
+  SnacksIndentScope = { fg = p.fg_4 },
+  SnacksDashboardHeader = { fg = p.fg_primary },
+  SnacksDashboardIcon = { fg = p.fg_secondary },
+  SnacksDashboardKey = { fg = p.fg_tertiary },
+  SnacksDashboardDesc = { fg = p.fg_1 },
+  SnacksDashboardFooter = { fg = p.fg_4, italic = true },
+  SnacksDashboardSpecial = { fg = p.fg_tertiary_variant },
+  SnacksPickerMatch = { fg = p.fg_primary, bold = true },
+  SnacksPickerDir = { fg = p.fg_4 },
+  SnacksPickerTitle = { fg = p.fg_3, bg = p.bg_2, bold = true },
+  SnacksPickerListCursorLine = { bg = p.bg_3 },
+  SnacksNotifierInfo = { fg = p.fg_info },
+  SnacksNotifierWarn = { fg = p.fg_warn },
+  SnacksNotifierError = { fg = p.fg_err },
+  SnacksNotifierBorderInfo = { fg = p.fg_info, bg = p.bg_2 },
+  SnacksNotifierBorderWarn = { fg = p.fg_warn, bg = p.bg_2 },
+  SnacksNotifierBorderError = { fg = p.fg_err, bg = p.bg_2 },
+
+  -- telescope.nvim
+  TelescopeNormal = { link = "NormalFloat" },
+  TelescopeBorder = { link = "FloatBorder" },
+  TelescopeTitle = { fg = p.fg_3, bold = true },
+  TelescopeSelection = { fg = p.fg, bg = p.bg_3 },
+  TelescopeMatching = { fg = p.fg_primary, bold = true },
+  TelescopePromptPrefix = { fg = p.fg_primary },
+
+  -- blink.cmp
+  BlinkCmpMenu = { link = "Pmenu" },
+  BlinkCmpMenuBorder = { fg = p.fg_4, bg = p.bg_2 },
+  BlinkCmpMenuSelection = { link = "PmenuSel" },
+  BlinkCmpLabelMatch = { fg = p.fg_primary, bold = true },
+  BlinkCmpLabelDeprecated = { fg = p.fg_4, strikethrough = true },
+  BlinkCmpKind = { fg = p.fg_tertiary_variant },
+  BlinkCmpDoc = { link = "NormalFloat" },
+  BlinkCmpDocBorder = { link = "FloatBorder" },
+  BlinkCmpSignatureHelpBorder = { link = "FloatBorder" },
+
+  -- which-key.nvim
+  WhichKey = { fg = p.fg_tertiary },
+  WhichKeyGroup = { fg = p.fg_secondary },
+  WhichKeyDesc = { fg = p.fg_1 },
+  WhichKeySeparator = { fg = p.fg_4 },
+  WhichKeyNormal = { link = "NormalFloat" },
+  WhichKeyBorder = { link = "FloatBorder" },
+
+  -- lspsaga.nvim
+  SagaNormal = { link = "NormalFloat" },
+  SagaBorder = { link = "FloatBorder" },
+
+  -- render-markdown.nvim
+  RenderMarkdownH1Bg = { bg = p.bg_4 },
+  RenderMarkdownH2Bg = { bg = p.bg_3 },
+  RenderMarkdownH3Bg = { bg = p.bg_1 },
+  RenderMarkdownH4Bg = { bg = p.bg_1 },
+  RenderMarkdownH5Bg = { bg = p.bg_1 },
+  RenderMarkdownH6Bg = { bg = p.bg_1 },
+  RenderMarkdownCode = { bg = p.bg_2 },
+  RenderMarkdownCodeInline = { fg = p.fg_primary, bg = p.bg_2 },
+  RenderMarkdownBullet = { fg = p.fg_tertiary_variant },
+  RenderMarkdownQuote = { fg = p.fg_4 },
+  RenderMarkdownTableHead = { fg = p.fg_3 },
+  RenderMarkdownTableRow = { fg = p.fg_4 },
+
+  -- trouble.nvim
+  TroubleNormal = { fg = p.fg, bg = p.bg },
+  TroubleNormalNC = { fg = p.fg, bg = p.bg },
+}
+
+for name, spec in pairs(groups) do
+  vim.api.nvim_set_hl(0, name, spec)
+end
+
+-- Terminal colors
+local term = {
+  p.bg_3, p.fg_err, p.fg_primary, p.fg_warn, p.fg_secondary, p.fg_tertiary, p.fg_hint, p.fg_1,
+  p.fg_4, p.fg_err, p.fg_primary_variant, p.fg_warn, p.fg_info, p.fg_tertiary_variant, p.fg_hint, p.fg,
+}
+for i, color in ipairs(term) do
+  vim.g["terminal_color_" .. (i - 1)] = color
+end

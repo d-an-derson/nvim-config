@@ -37,13 +37,10 @@ vim.keymap.set({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
 vim.keymap.set("n", "<c-p>", "<Plug>(YankyPreviousEntry)")
 vim.keymap.set("n", "<c-n>", "<Plug>(YankyNextEntry)")
 
--- treesitter init
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'lua', 'javascript', 'html', 'css', 'c', 'go' }, -- Add your languages
-  callback = function()
-    vim.treesitter.start()
-  end,
-})
+-- treesitter: highlighting is started by tree-sitter-manager; use native folds
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevel = 99 -- start with all folds open
 
 -- Diagnostics config
 -- Turn off inline virtual text
@@ -65,14 +62,6 @@ require("lazy").setup({
   spec = {
     -- import your plugins
     { import = "plugins" },
-    {
-      "notes",
-      dir = "/Volumes/BootE/Dev/projects/nvim-dev/notes",
-      config = function()
-        require("notes").setup({
-        })
-      end,
-    },
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
@@ -83,10 +72,10 @@ require("lazy").setup({
 
 require('lualine').setup({
   options = {
-      theme = '16color',
+      theme = 'kinda_nvimd',
       ignore_focus = { 'neo-tree' }
     }
   })
 
 -- set colorcheme
-vim.cmd [[colorscheme moonfly]]
+vim.cmd [[colorscheme kinda_nvimd]]
