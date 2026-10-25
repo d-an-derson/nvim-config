@@ -6,11 +6,11 @@ return {
     local p = require("kinda_nvimd.palette")
     -- like the helix bufferline: active buffer on bg_3, everything else on the editor bg
     local names = {
-      "background", "buffer", "close_button", "numbers", "diagnostic", "hint", "hint_diagnostic",
+      "buffer", "close_button", "numbers", "diagnostic", "hint", "hint_diagnostic",
       "info", "info_diagnostic", "warning", "warning_diagnostic", "error", "error_diagnostic",
       "modified", "duplicate", "pick", "separator", "indicator",
     }
-    local highlights = { fill = { bg = p.bg }, tab = { fg = p.fg_4, bg = p.bg }, tab_selected = { fg = p.fg_primary, bg = p.bg_3, bold = true } }
+    local highlights = { fill = { bg = p.bg }, background = { bg = p.bg }, tab = { fg = p.fg_4, bg = p.bg }, tab_selected = { fg = p.fg_primary, bg = p.bg_3, bold = true } }
     for _, name in ipairs(names) do
       highlights[name .. "_selected"] = { bg = p.bg_3 }
       highlights[name .. "_visible"] = { bg = p.bg }
