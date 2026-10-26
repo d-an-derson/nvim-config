@@ -2,7 +2,7 @@ local builtin = require('telescope.builtin')
 
 return {
   vim.keymap.set('i', 'jk', '<ESC>'),
-  vim.keymap.set('n', '<leader>e', function() Snacks.explorer({ cwd = vim.fn.expand("%:p:h") }) end, { desc = 'Toggle Snacks/Explorer (Current dir/file)'}),
+  vim.keymap.set('n', '<leader>e', function() Snacks.explorer({ cwd = vim.fn.getcwd() }) end, { desc = 'Toggle Snacks/Explorer (Current dir/file)'}),
   vim.keymap.set('n', '<C-f>', '<Cmd>:Neotree focus<CR>', { desc = 'Focus Neo-tree'}),
   -- Shift + l goes to the next buffer
   vim.keymap.set('n', '<S-l>', '<Cmd>bnext<CR>', { desc = 'Next buffer' }),
